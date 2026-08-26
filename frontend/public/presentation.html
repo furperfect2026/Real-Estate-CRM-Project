@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tathastu Infra CRM — Client Presentation & Demonstration Deck</title>
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #2563EB;
+      --primary-dark: #1D4ED8;
+      --primary-light: #EFF6FF;
+      --accent: #10B981;
+      --dark: #0F172A;
+      --slate-800: #1E293B;
+      --slate-600: #475569;
+      --slate-400: #94A3B8;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+      --bg: #F8FAFC;
+      --card-bg: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--dark);
+      color: #F8FAFC;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slide-deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      max-width: calc(100vh * 16 / 9);
+      max-height: calc(100vw * 9 / 16);
+      background: #FFFFFF;
+      color: #0F172A;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 48px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateX(40px);
+      background: #FFFFFF;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-b: 1px solid var(--slate-200);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .brand-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563EB, #4F46E5);
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #0F172A;
+    }
+
+    .slide-category {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      border: 1px solid #BFDBFE;
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #0F172A;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      font-size: 15px;
+      color: var(--slate-600);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* Cards */
+    .card {
+      background: #F8FAFC;
+      border: 1px solid var(--slate-200);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-top: 8px;
+    }
+
+    .badge-blue { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .badge-green { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+    .badge-amber { background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; }
+    .badge-purple { background: #FAF5FF; color: #7E22CE; border: 1px solid #E9D5FF; }
+
+    /* Controls Bottom Bar */
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--slate-200);
+      padding-top: 16px;
+      margin-top: 24px;
+    }
+
+    .counter {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--slate-400);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    button.btn {
+      background: #FFFFFF;
+      border: 1px solid var(--slate-200);
+      color: #0F172A;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    button.btn:hover {
+      background: var(--slate-100);
+      border-color: var(--slate-400);
+    }
+
+    button.btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    button.btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Key Metrics Display */
+    .stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: #0F172A;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-400);
+    }
+
+    /* Progress Steps */
+    .steps-chain {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin: 16px 0;
+    }
+
+    .step-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .step-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .step-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0F172A;
+      text-align: center;
+    }
+
+    .step-arrow {
+      color: var(--slate-400);
+      font-weight: bold;
+    }
+
+    /* Chart Container */
+    .chart-box {
+      width: 100%;
+      height: 240px;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+<div class="slide-deck">
+
+  <!-- SLIDE 1: TITLE SLIDE -->
+  <div class="slide active" id="slide-1">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Executive Presentation</span>
+    </div>
+
+    <div class="slide-content" style="text-align: center; align-items: center;">
+      <div style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #1D4ED8; font-size: 11px; font-weight: 700; padding: 6px 16px; border-radius: 9999px; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 6px;">
+        <span>🏢</span> Tailored Real Estate Sales ERP & CRM (7-8 User Team)
+      </div>
+
+      <h1 style="font-size: 46px; max-width: 800px; margin-bottom: 16px;">
+        Tathastu Infra CRM & Lead-to-Closure Operating System
+      </h1>
+
+      <p class="subtitle" style="font-size: 16px; max-width: 680px; margin-bottom: 32px;">
+        An end-to-end sales engine delivering omnichannel intake, multi-lead bulk assignment, Callen cloud dialer simulation, scheduled site visits, and automated unit booking allotments.
+      </p>
+
+      <div class="grid-4" style="width: 100%; max-width: 840px;">
+        <div class="card" style="text-align: center; padding: 14px;">
+          <div class="stat-number" style="font-size: 26px; color: #2563EB;">100%</div>
+          <div class="stat-label">Operational Scope</div>
+        </div>
+        <div class="card" style="text-align: center; padding: 14px;">
+          <div class="stat-number" style="font-size: 26px; color: #10B981;">3 Panels</div>
+          <div class="stat-label">Admin • Manager • Caller</div>
+        </div>
+        <div class="card" style="text-align: center; padding: 14px;">
+          <div class="stat-number" style="font-size: 26px; color: #F59E0B;">7 Stages</div>
+          <div class="stat-label">Lead Journey Funnel</div>
+        </div>
+        <div class="card" style="text-align: center; padding: 14px;">
+          <div class="stat-number" style="font-size: 26px; color: #8B5CF6;">1-Click</div>
+          <div class="stat-label">Bulk Allocation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 1 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE PROBLEM & CORE SOLUTION -->
+  <div class="slide" id="slide-2">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Strategic Overview</span>
+    </div>
+
+    <div class="slide-content">
+      <h2>The Real Estate Sales Problem & Our Solution</h2>
+      <p class="subtitle">
+        Eliminating lead leakage, slow 1-by-1 manual assignment, and disconnected booking records.
+      </p>
+
+      <div class="grid-2">
+        <div class="card" style="background: #FEF2F2; border-color: #FECACA;">
+          <div style="font-size: 14px; font-weight: 800; color: #991B1B; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <span>⚠️</span> The Typical Bottlenecks
+          </div>
+          <ul style="font-size: 12px; color: #7F1D1D; line-height: 1.8; list-style-position: inside;">
+            <li><strong>Manual One-by-One Assignment:</strong> Admin exhausts hours assigning individual leads to managers and callers.</li>
+            <li><strong>Lead Leakage & Duplicate Waste:</strong> Unchecked portals flood duplicates, wasting executive call time.</li>
+            <li><strong>Untracked Calls:</strong> Lack of duration timers, outcome dispositions, or call notes.</li>
+            <li><strong>Lost Tour Momentum:</strong> Site visits scribbled on paper or WhatsApp with no cab pickup sync.</li>
+            <li><strong>Disconnected Bookings:</strong> Won deals and token payments untracked against pipeline.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="background: #ECFDF5; border-color: #A7F3D0;">
+          <div style="font-size: 14px; font-weight: 800; color: #065F46; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <span>✅</span> Tathastu Infra CRM Solution
+          </div>
+          <ul style="font-size: 12px; color: #047857; line-height: 1.8; list-style-position: inside;">
+            <li><strong>Multi-Lead Batch Allocation:</strong> Select all unassigned leads and assign in 1 click!</li>
+            <li><strong>Automated Phone Deduplication:</strong> Instant alert detects repeat inquiries and spam.</li>
+            <li><strong>Callen Cloud Dialer:</strong> Real-time call duration timer, audio wave, and disposition outcomes.</li>
+            <li><strong>Operational Site Visits:</strong> Schedule tours, client cab pick-up landmarks, and tour completion.</li>
+            <li><strong>Unit Bookings & Tokens:</strong> Flat/villa allotment, agreement values, and token tracking.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 2 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: 4 PILLARS & 7-STAGE JOURNEY -->
+  <div class="slide" id="slide-3">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Pipeline Lifecycle</span>
+    </div>
+
+    <div class="slide-content">
+      <h2>4 Core Pillars & 7-Stage Lead Journey</h2>
+      <p class="subtitle">
+        Every prospect flows through an audited, measurable progression from intake to closure.
+      </p>
+
+      <!-- 4 Pillars Grid -->
+      <div class="grid-4" style="margin-bottom: 24px;">
+        <div class="card">
+          <div class="card-icon" style="background: #EFF6FF; color: #2563EB;">📥</div>
+          <div class="card-title">1. Capture</div>
+          <div class="card-desc">Google Ads, Meta, 99acres, MagicBricks, Website, Walk-ins with automated deduplication.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: #FAF5FF; color: #7E22CE;">👥</div>
+          <div class="card-title">2. Assign</div>
+          <div class="card-desc">2-Tier hierarchy: Admin ➔ Regional Managers (East & West) ➔ Callers & Sales Executives.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: #FFFBEB; color: #D97706;">📞</div>
+          <div class="card-title">3. Track</div>
+          <div class="card-desc">In-app Callen cloud dialer, call timers, outcome dispositions, and scheduled site visits.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: #ECFDF5; color: #059669;">🤝</div>
+          <div class="card-title">4. Convert</div>
+          <div class="card-desc">Negotiation closure, unit allotment, token advance logging, and buyer registration.</div>
+        </div>
+      </div>
+
+      <!-- 7 Stages Breadcrumbs -->
+      <div class="card" style="padding: 16px;">
+        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--slate-400); margin-bottom: 8px;">
+          7 Operational Funnel Stages (Status Flow)
+        </div>
+        <div class="steps-chain">
+          <div class="step-node">
+            <div class="step-circle" style="background: #EFF6FF; border-color: #3B82F6;">1</div>
+            <div class="step-name">New Lead</div>
+          </div>
+          <span class="step-arrow">➔</span>
+          <div class="step-node">
+            <div class="step-circle" style="background: #FAF5FF; border-color: #8B5CF6;">2</div>
+            <div class="step-name">Assigned</div>
+          </div>
+          <span class="step-arrow">➔</span>
+          <div class="step-node">
+            <div class="step-circle" style="background: #FFFBEB; border-color: #F59E0B;">3</div>
+            <div class="step-name">Calling</div>
+          </div>
+          <span class="step-arrow">➔</span>
+          <div class="step-node">
+            <div class="step-circle" style="background: #ECFDF5; border-color: #10B981;">4</div>
+            <div class="step-name">Interested</div>
+          </div>
+          <span class="step-arrow">➔</span>
+          <div class="step-node">
+            <div class="step-circle" style="background: #EEF2FF; border-color: #6366F1;">5</div>
+            <div class="step-name">Site Visit</div>
+          </div>
+          <span class="step-arrow">➔</span>
+          <div class="step-node">
+            <div class="step-circle" style="background: #FFF1F2; border-color: #F43F5E;">6</div>
+            <div class="step-name">Negotiation</div>
+          </div>
+          <span class="step-arrow">➔</span>
+          <div class="step-node">
+            <div class="step-circle" style="background: #F0FDFA; border-color: #14B8A6;">7</div>
+            <div class="step-name">Converted</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 3 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: DEDICATED 3-PANEL ROLES -->
+  <div class="slide" id="slide-4">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">User Roles & Perspectives</span>
+    </div>
+
+    <div class="slide-content">
+      <h2>3 Dedicated CRM Panels for 7-8 Users</h2>
+      <p class="subtitle">
+        Switch perspectives seamlessly via the topbar to test all 3 operational views.
+      </p>
+
+      <div class="grid-3">
+        <!-- Admin Panel -->
+        <div class="card" style="border-top: 4px solid #2563EB;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div class="card-title" style="margin: 0; font-size: 16px;">👑 Admin Panel</div>
+            <span class="badge badge-blue">Rohit Nalpe (ADM-001)</span>
+          </div>
+          <p class="card-desc" style="margin-bottom: 12px;">
+            System-wide command center with complete oversight of all marketing channels, lead flows, and revenues.
+          </p>
+          <ul style="font-size: 11px; color: var(--slate-600); line-height: 1.8; list-style-position: inside;">
+            <li>Full intake queue & duplicate alerts</li>
+            <li>Bulk allocate leads to Manager Anmol</li>
+            <li>Monitor automated lead-to-caller dispatches</li>
+            <li>Company ROI & executive leaderboard</li>
+            <li>Organization profile, teams & integrations</li>
+          </ul>
+        </div>
+
+        <!-- Manager Panel -->
+        <div class="card" style="border-top: 4px solid #10B981;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div class="card-title" style="margin: 0; font-size: 16px;">👔 Manager Panel</div>
+            <span class="badge badge-green">Anmol (MGR-001)</span>
+          </div>
+          <p class="card-desc" style="margin-bottom: 12px;">
+            Sales desk management for team pipelines, quotas, site visit agendas, and tour schedules.
+          </p>
+          <ul style="font-size: 11px; color: var(--slate-600); line-height: 1.8; list-style-position: inside;">
+            <li>Auto-filtered to Manager's assigned lead queue</li>
+            <li>Bulk assign leads down to Caller Gayatri</li>
+            <li>Team site visits & property tour schedule</li>
+            <li>Caller response time SLA monitoring</li>
+            <li>Team closed booking milestones & agreement tracking</li>
+          </ul>
+        </div>
+
+        <!-- Caller Workbench -->
+        <div class="card" style="border-top: 4px solid #8B5CF6;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div class="card-title" style="margin: 0; font-size: 16px;">🎧 Caller Workbench</div>
+            <span class="badge badge-purple">Gayatri (CLR-001)</span>
+          </div>
+          <p class="card-desc" style="margin-bottom: 12px;">
+            High-speed telecalling desk designed for maximum daily client outreach, dialer calls, and AI follow-ups.
+          </p>
+          <ul style="font-size: 11px; color: var(--slate-600); line-height: 1.8; list-style-position: inside;">
+            <li>Personal inbound calling queue</li>
+            <li>1-Click Callen cloud dialer with live timer</li>
+            <li>1-Click Smart AI WhatsApp follow-up generator</li>
+            <li>Schedule client tours with cab pick-up</li>
+            <li>View personal closed booking records</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 4 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: BULK MULTI-LEAD ASSIGNMENT -->
+  <div class="slide" id="slide-5">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Core Efficiency Feature</span>
+    </div>
+
+    <div class="slide-content">
+      <h2>Multi-Lead Bulk Selection & Batch Assignment</h2>
+      <p class="subtitle">
+        Eliminating tedious 1-by-1 assignments — allocate dozens of leads in seconds.
+      </p>
+
+      <div class="grid-2">
+        <div class="card" style="padding: 24px;">
+          <div class="card-title" style="font-size: 17px; margin-bottom: 12px;">⚡ Key Batch Operations</div>
+          
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="background: #EFF6FF; color: #2563EB; font-weight: 800; border-radius: 8px; padding: 4px 8px; font-size: 12px;">1</div>
+              <div>
+                <strong style="font-size: 13px; color: #0F172A;">Master Checkbox & Row Selection:</strong>
+                <p style="font-size: 11px; color: var(--slate-600); margin-top: 2px;">Tick all displayed leads from header or cherry-pick specific prospects.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="background: #FFFBEB; color: #D97706; font-weight: 800; border-radius: 8px; padding: 4px 8px; font-size: 12px;">2</div>
+              <div>
+                <strong style="font-size: 13px; color: #0F172A;">"Select All Unassigned" Quick Filter:</strong>
+                <p style="font-size: 11px; color: var(--slate-600); margin-top: 2px;">1-Click shortcut to instantly select every lead lacking an assigned manager.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="background: #ECFDF5; color: #059669; font-weight: 800; border-radius: 8px; padding: 4px 8px; font-size: 12px;">3</div>
+              <div>
+                <strong style="font-size: 13px; color: #0F172A;">Floating Action Toolbar:</strong>
+                <p style="font-size: 11px; color: var(--slate-600); margin-top: 2px;">Slides in showing active count: Bulk Assign Manager, Assign Caller, or Split 50/50.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="background: #0F172A; color: white; border: none; padding: 24px;">
+          <div style="font-size: 12px; font-weight: 700; color: #60A5FA; text-transform: uppercase; margin-bottom: 8px;">
+            Live UI Simulation
+          </div>
+          <div style="background: #1E293B; border-radius: 12px; padding: 16px; border: 1px solid #334155;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-weight: 800; font-size: 13px; color: #34D399;">● 5 Leads Selected</span>
+              <span style="font-size: 10px; background: #334155; padding: 2px 8px; rounded-md: 6px;">Intake Queue</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="background: #2563EB; color: white; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; text-align: center;">
+                🛡️ Bulk Assign to Manager (Rajesh Kumar - East)
+              </div>
+              <div style="background: #7C3AED; color: white; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; text-align: center;">
+                👤 Bulk Assign to Caller (Amit Patil)
+              </div>
+              <div style="background: #334155; color: #E2E8F0; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; text-align: center;">
+                ⚡ Split 50/50 (East & West Desks)
+              </div>
+            </div>
+          </div>
+          <p style="font-size: 11px; color: #94A3B8; margin-top: 14px; text-align: center;">
+            ✓ Instant stage progression to <span style="color: #A78BFA; font-weight: bold;">ASSIGNED</span> upon confirmation.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 5 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: CALLEN DIALER -->
+  <div class="slide" id="slide-6">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Telecalling Technology</span>
+    </div>
+
+    <div class="slide-content">
+      <h2>Integrated Callen Dialer & AI Smart Follow-Up</h2>
+      <p class="subtitle">
+        Accelerate caller outreach with live timers, audio waveforms, and 1-click AI WhatsApp follow-up generation.
+      </p>
+
+      <div class="grid-2">
+        <div class="card" style="padding: 24px;">
+          <div class="card-title" style="font-size: 17px; margin-bottom: 12px;">📞 Callen Cloud Calling</div>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 12px; color: var(--slate-600); line-height: 1.6;">
+            <div>
+              <strong style="color: #0F172A;">1-Click Dialing:</strong> Trigger calling modal directly from any lead row without manual dialing.
+            </div>
+            <div>
+              <strong style="color: #0F172A;">Active Call Duration Timer:</strong> Tracks conversation minutes and caller adherence automatically.
+            </div>
+            <div>
+              <strong style="color: #0F172A;">Structured Dispositions:</strong>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;">
+                <span class="badge badge-green">CONNECTED</span>
+                <span class="badge badge-blue">SCHEDULED_VISIT</span>
+                <span class="badge badge-amber">CALLBACK</span>
+                <span class="badge badge-purple">BUSY</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="background: #F8FAFC; border: 2px solid #E2E8F0; padding: 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <div style="font-size: 15px; font-weight: 800; color: #4338CA; display: flex; align-items: center; gap: 6px;">
+              <span>🪄</span> Tathastu AI Sales Copilot
+            </div>
+            <span class="badge badge-purple">1-Click WhatsApp</span>
+          </div>
+          <p style="font-size: 11px; color: var(--slate-600); margin-bottom: 10px;">
+            Auto-drafts contextual follow-up messages tailored to lead budget, stage, and preferred project.
+          </p>
+          <div style="background: white; border: 1px solid var(--slate-200); border-radius: 10px; padding: 12px; font-size: 11px; color: var(--slate-800); line-height: 1.5; font-style: italic;">
+            "Hi Vikram! Great speaking with you regarding Tathastu Grandeur (₹1.50 Cr). We've reserved a VIP sample flat tour for Saturday with complimentary doorstep cab pickup. When would you prefer the pickup?"
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 12px;">
+            <span style="background: #ECFDF5; color: #047857; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; border: 1px solid #A7F3D0;">
+              ✓ WhatsApp wa.me Link
+            </span>
+            <span style="background: #EFF6FF; color: #1D4ED8; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; border: 1px solid #BFDBFE;">
+              ✓ Objection Buster
+            </span>
+            <span style="background: #FFFBEB; color: #B45309; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; border: 1px solid #FDE68A;">
+              ✓ 14-Day Cadence
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 6 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: SITE VISITS MODULE -->
+  <div class="slide" id="slide-7">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Ground Operations</span>
+    </div>
+
+    <div class="slide-content">
+      <h2>Site Visits & Property Tours Management</h2>
+      <p class="subtitle">
+        Bridging digital inquiries with on-site project tours, cab pick-ups, and completion momentum.
+      </p>
+
+      <div class="grid-4" style="margin-bottom: 20px;">
+        <div class="card" style="text-align: center;">
+          <div class="stat-number" style="color: #2563EB;">14</div>
+          <div class="stat-label">Scheduled Tours</div>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div class="stat-number" style="color: #10B981;">38</div>
+          <div class="stat-label">Completed Tours</div>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div class="stat-number" style="color: #F59E0B;">8</div>
+          <div class="stat-label">Cab Pickups Arranged</div>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div class="stat-number" style="color: #8B5CF6;">72.7%</div>
+          <div class="stat-label">Tour to Offer Ratio</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🚗 Transport & Escort Assistance</div>
+          <p class="card-desc">
+            Toggle <strong>"Arrange Cab / Escort Pickup"</strong> to log metro station or airport pickups. Drivers and executives are coordinated with zero confusion.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🔄 Seamless Lead Progression</div>
+          <p class="card-desc">
+            Clicking <strong>"Mark Completed"</strong> on a tour immediately records tour notes and promotes the lead to <strong>NEGOTIATION</strong> or <strong>BOOKINGS</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 7 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: BOOKINGS & INVENTORY -->
+  <div class="slide" id="slide-8">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Revenue & Closures</span>
+    </div>
+
+    <div class="slide-content">
+      <h2>Bookings, Unit Allotment & Payment Milestones</h2>
+      <p class="subtitle">
+        Secure won deals, track flat/villa allotments, and record token advance collections.
+      </p>
+
+      <div class="grid-3" style="margin-bottom: 20px;">
+        <div class="card" style="text-align: center; border-left: 4px solid #10B981;">
+          <div class="stat-number" style="color: #059669;">₹3.99 Cr</div>
+          <div class="stat-label">Total Closed Revenue</div>
+        </div>
+        <div class="card" style="text-align: center; border-left: 4px solid #2563EB;">
+          <div class="stat-number" style="color: #2563EB;">3 Units</div>
+          <div class="stat-label">Inventory Allotted</div>
+        </div>
+        <div class="card" style="text-align: center; border-left: 4px solid #F59E0B;">
+          <div class="stat-number" style="color: #D97706;">₹42.50 L</div>
+          <div class="stat-label">Token Advances Paid</div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 16px;">
+        <div style="font-size: 13px; font-weight: 700; color: #0F172A; margin-bottom: 8px;">
+          Milestone Progression Engine
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 12px; align-items: center; text-align: center;">
+          <div style="background: #FFFBEB; border: 1px solid #FDE68A; padding: 10px; border-radius: 10px;">
+            <strong style="font-size: 11px; color: #B45309;">1. Token Received</strong>
+            <p style="font-size: 10px; color: #92400E; margin-top: 2px;">Unit blocked, receipt issued</p>
+          </div>
+          <span style="color: var(--slate-400); font-weight: bold;">➔</span>
+          <div style="background: #EFF6FF; border: 1px solid #BFDBFE; padding: 10px; border-radius: 10px;">
+            <strong style="font-size: 11px; color: #1D4ED8;">2. Agreement Executed</strong>
+            <p style="font-size: 10px; color: #1E40AF; margin-top: 2px;">20% paid, draft registered</p>
+          </div>
+          <span style="color: var(--slate-400); font-weight: bold;">➔</span>
+          <div style="background: #ECFDF5; border: 1px solid #A7F3D0; padding: 10px; border-radius: 10px;">
+            <strong style="font-size: 11px; color: #047857;">3. Registration Complete</strong>
+            <p style="font-size: 10px; color: #065F46; margin-top: 2px;">Stamp duty paid, deal won!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 8 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: MARKETING ROI & FUNNEL -->
+  <div class="slide" id="slide-9">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Intelligence & ROI</span>
+    </div>
+
+    <div class="slide-content">
+      <h2>Conversion Funnel Velocity & Source ROI</h2>
+      <p class="subtitle">
+        Real-time visibility into advertising yield across Google Ads, Meta, 99acres, and MagicBricks.
+      </p>
+
+      <div class="grid-2">
+        <div class="card" style="padding: 16px;">
+          <div class="card-title" style="font-size: 13px;">7-Stage Funnel Qualification Rate</div>
+          <div class="chart-box">
+            <canvas id="funnelChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="padding: 16px;">
+          <div class="card-title" style="font-size: 13px;">Marketing Channel ROI Multiplier</div>
+          <div class="chart-box">
+            <canvas id="roiChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 9 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn btn-primary" onclick="nextSlide()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: DEMO & NEXT STEPS -->
+  <div class="slide" id="slide-10">
+    <div class="slide-header">
+      <div class="brand-pill">
+        <div class="brand-logo">TI</div>
+        <span class="brand-name">Tathastu Infra</span>
+      </div>
+      <span class="slide-category">Client Demonstration</span>
+    </div>
+
+    <div class="slide-content" style="text-align: center; align-items: center;">
+      <h1 style="font-size: 40px; margin-bottom: 12px;">Ready for Client Handover</h1>
+      <p class="subtitle" style="max-width: 640px; margin-bottom: 24px;">
+        Follow this 4-step live walkthrough script to demonstrate the complete lifecycle to your client.
+      </p>
+
+      <div class="grid-4" style="width: 100%; max-width: 900px; text-align: left; margin-bottom: 24px;">
+        <div class="card" style="padding: 14px;">
+          <strong style="font-size: 12px; color: #2563EB;">Step 1: Admin Intake (Rohit Nalpe)</strong>
+          <p style="font-size: 11px; color: var(--slate-600); margin-top: 4px;">
+            Open <code>/leads</code>. Click <em>"Select All Unassigned"</em> ➔ Bulk Assign to <strong>Manager (Anmol)</strong>.
+          </p>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <strong style="font-size: 12px; color: #10B981;">Step 2: Manager View (Anmol)</strong>
+          <p style="font-size: 11px; color: var(--slate-600); margin-top: 4px;">
+            Switch topbar to <strong>Manager Panel</strong>. Allocate leads to <strong>Caller (Gayatri)</strong>.
+          </p>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <strong style="font-size: 12px; color: #8B5CF6;">Step 3: Callen & AI Outreach</strong>
+          <p style="font-size: 11px; color: var(--slate-600); margin-top: 4px;">
+            Switch to <strong>Caller Panel</strong>. Hit <em>"Callen"</em> or click <em>"🪄 AI Follow-Up"</em> to fire a personalized WhatsApp message.
+          </p>
+        </div>
+        <div class="card" style="padding: 14px;">
+          <strong style="font-size: 12px; color: #059669;">Step 4: Book & Allot</strong>
+          <p style="font-size: 11px; color: var(--slate-600); margin-top: 4px;">
+            Go to <code>/site-visits</code> ➔ Mark Completed ➔ Open <code>/bookings</code> ➔ Confirm unit allotment!
+          </p>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px;">
+        <a href="http://localhost:3000/dashboard" target="_blank" style="text-decoration: none;">
+          <button class="btn btn-primary" style="padding: 10px 20px; font-size: 13px;">
+            🚀 Open Live CRM Dashboard
+          </button>
+        </a>
+        <a href="http://localhost:3000/ai-assistant" target="_blank" style="text-decoration: none;">
+          <button class="btn" style="padding: 10px 20px; font-size: 13px; background: #7C3AED; color: white; border-color: #6D28D9;">
+            🤖 Launch AI Sales Assistant
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <span class="counter">Slide 10 of 10</span>
+      <div class="btn-group">
+        <button class="btn" onclick="prevSlide()">← Prev</button>
+        <button class="btn" onclick="goToSlide(1)">Restart ↺</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentSlide = 1;
+  const totalSlides = 10;
+
+  function showSlide(index) {
+    if (index < 1) index = 1;
+    if (index > totalSlides) index = totalSlides;
+
+    document.querySelectorAll('.slide').forEach((slide, i) => {
+      slide.classList.remove('active');
+      if (i === index - 1) {
+        slide.classList.add('active');
+      }
+    });
+
+    currentSlide = index;
+
+    // Initialize Chart.js on Slide 9
+    if (currentSlide === 9) {
+      setTimeout(initCharts, 150);
+    }
+  }
+
+  function nextSlide() {
+    showSlide(currentSlide + 1);
+  }
+
+  function prevSlide() {
+    showSlide(currentSlide - 1);
+  }
+
+  function goToSlide(n) {
+    showSlide(n);
+  }
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+      nextSlide();
+    } else if (e.key === 'ArrowLeft') {
+      prevSlide();
+    }
+  });
+
+  // Chart.js renderers
+  let chartsInitialized = false;
+  function initCharts() {
+    if (chartsInitialized) return;
+    chartsInitialized = true;
+
+    // Funnel Chart
+    const ctxFunnel = document.getElementById('funnelChart');
+    if (ctxFunnel) {
+      new Chart(ctxFunnel, {
+        type: 'bar',
+        data: {
+          labels: ['New', 'Assigned', 'Calling', 'Interested', 'Visit', 'Offer', 'Won'],
+          datasets: [{
+            label: 'Active Leads',
+            data: [120, 112, 98, 64, 38, 22, 16],
+            backgroundColor: [
+              '#3B82F6', '#8B5CF6', '#F59E0B', '#10B981', '#6366F1', '#F43F5E', '#14B8A6'
+            ],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { grid: { color: '#F1F5F9' }, ticks: { font: { size: 10 } } },
+            x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+          }
+        }
+      });
+    }
+
+    // ROI Multiplier Chart
+    const ctxRoi = document.getElementById('roiChart');
+    if (ctxRoi) {
+      new Chart(ctxRoi, {
+        type: 'bar',
+        data: {
+          labels: ['Google', 'Meta', '99acres', 'MagicBricks', 'Website', 'Walk-in'],
+          datasets: [{
+            label: 'ROI Multiplier (x)',
+            data: [4.8, 3.9, 3.2, 2.5, 6.1, 8.4],
+            backgroundColor: '#2563EB',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { grid: { color: '#F1F5F9' }, ticks: { font: { size: 10 } } },
+            x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+          }
+        }
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
