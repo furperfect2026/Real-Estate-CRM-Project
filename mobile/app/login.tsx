@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#ffffff',
     fontSize: 16,
-    fontWeight: '60bold',
+    fontWeight: '700',
   },
   error: {
     color: '#ef4444', // red-500
