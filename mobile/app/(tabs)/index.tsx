@@ -72,47 +72,26 @@ export default function DashboardScreen() {
         </View>
       </View>
 
-      {/* Persona Switcher Card */}
-      <View style={styles.personaCard}>
-        <View style={styles.personaTopRow}>
-          <View style={[styles.avatarCircle, { backgroundColor: currentUser.badge_color }]}>
-            <Text style={styles.avatarText}>{currentUser.avatar}</Text>
-          </View>
-          <View style={{ flex: 1, marginLeft: 12 }}>
-            <View style={styles.rowAlign}>
-              <Text style={styles.userName}>{currentUser.name}</Text>
-              <View style={[styles.roleBadge, { backgroundColor: `${currentUser.badge_color}14`, borderColor: currentUser.badge_color }]}>
-                <Text style={[styles.roleBadgeText, { color: currentUser.badge_color }]}>
-                  {isAdmin ? 'ADMIN PANEL' : isManager ? 'MANAGER PANEL' : 'CALLER WORKBENCH'}
-                </Text>
-              </View>
-            </View>
-            <Text style={styles.userRoleTitle}>{currentUser.role_title}</Text>
-          </View>
-        </View>
-
-        {/* Switch Persona Buttons */}
-        <View style={styles.switchPersonaRow}>
-          <Text style={styles.switchLabel}>Switch View:</Text>
-          {personas.map((p) => (
-            <TouchableOpacity
-              key={p.id}
-              style={[
-                styles.personaBtn,
-                currentUser.id === p.id && { backgroundColor: p.badge_color, borderColor: p.badge_color },
-              ]}
-              onPress={() => switchPersona(p.id)}
-            >
-              <Text
-                style={[
-                  styles.personaBtnText,
-                  currentUser.id === p.id && { color: '#ffffff', fontWeight: '800' },
-                ]}
-              >
-                {p.name.split(' ')[0]}
+      {/* Greeting Header */}
+      <View style={styles.greetingHeader}>
+        <View style={styles.rowBetween}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.greetingTitle}>
+              Hello, {currentUser.name.split(' ')[0]}{' '}
+              <Text style={[styles.greetingRole, { color: currentUser.badge_color }]}>
+                ({isAdmin ? 'Admin' : isManager ? 'Manager' : 'Caller'})
               </Text>
-            </TouchableOpacity>
-          ))}
+            </Text>
+            <Text style={styles.greetingSubtitle}>
+              {currentUser.role_title} • {currentUser.team_name}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={[styles.avatarCircle, { backgroundColor: currentUser.badge_color }]}
+            onPress={() => router.push('/profile')}
+          >
+            <Text style={styles.avatarText}>{currentUser.avatar}</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -588,12 +567,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '700',
   },
-  personaCard: {
-    backgroundColor: '#ffffff', // pure white card
+  greetingHeader: {
+    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#e2e8f0', // slate-200
+    borderColor: '#e2e8f0',
     marginBottom: 14,
     shadowColor: '#0f172a',
     shadowOffset: { width: 0, height: 2 },
@@ -601,10 +580,21 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 2,
   },
-  personaTopRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
+  greetingTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#0f172a',
+    letterSpacing: -0.3,
+  },
+  greetingRole: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  greetingSubtitle: {
+    fontSize: 12,
+    color: '#64748b',
+    marginTop: 3,
+    fontWeight: '500',
   },
   avatarCircle: {
     width: 44,
@@ -621,54 +611,6 @@ const styles = StyleSheet.create({
   rowAlign: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  userName: {
-    fontSize: 17,
-    fontWeight: '800',
-    color: '#0f172a',
-  },
-  roleBadge: {
-    borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-  },
-  roleBadgeText: {
-    fontSize: 9,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-  },
-  userRoleTitle: {
-    fontSize: 12,
-    color: '#64748b',
-    marginTop: 2,
-  },
-  switchPersonaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#f1f5f9',
-    paddingTop: 10,
-    gap: 8,
-  },
-  switchLabel: {
-    color: '#64748b',
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  personaBtn: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    backgroundColor: '#f8fafc',
-  },
-  personaBtnText: {
-    color: '#475569',
-    fontSize: 11,
-    fontWeight: '700',
   },
   periodRow: {
     flexDirection: 'row',

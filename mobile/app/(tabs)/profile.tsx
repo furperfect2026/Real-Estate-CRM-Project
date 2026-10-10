@@ -48,7 +48,13 @@ export default function ProfileScreen() {
                 styles.personaOption,
                 currentUser.id === p.id && styles.personaOptionActive,
               ]}
-              onPress={() => switchPersona(p.id)}
+              onPress={() => {
+                switchPersona(p.id);
+                Alert.alert(
+                  'Profile Switched',
+                  `Active user is now ${p.name} (${p.role_title}). Go to Dashboard tab to see updated role perspective.`
+                );
+              }}
             >
               <View style={[styles.miniAvatar, { backgroundColor: p.badge_color }]}>
                 <Text style={styles.miniAvatarText}>{p.avatar}</Text>
