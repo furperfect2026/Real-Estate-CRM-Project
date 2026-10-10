@@ -13,6 +13,7 @@ import {
 import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useLeads, MobileLead } from '../../hooks/use-leads';
+import { THEME } from '../../constants/Colors';
 
 export default function LeadsScreen() {
   const router = useRouter();
@@ -51,22 +52,22 @@ export default function LeadsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Search & Header Bar */}
+      {/* Header Bar */}
       <View style={styles.header}>
         <View style={styles.titleRow}>
           <Text style={styles.headerTitle}>Inbound Leads CRM</Text>
           <View style={styles.countBadge}>
-            <Text style={styles.countBadgeText}>{filteredLeads.length} Leads</Text>
+            <Text style={styles.countBadgeText}>{filteredLeads.length} Leads Active</Text>
           </View>
         </View>
 
         {/* Search Input */}
         <View style={styles.searchBar}>
-          <Ionicons name="search" size={18} color="#94a3b8" style={{ marginRight: 8 }} />
+          <Ionicons name="search" size={18} color="#64748b" style={{ marginRight: 8 }} />
           <TextInput
             style={styles.searchInput}
             placeholder="Search by name, phone, or BHK..."
-            placeholderTextColor="#64748b"
+            placeholderTextColor="#94a3b8"
             value={search}
             onChangeText={setSearch}
           />
@@ -93,7 +94,7 @@ export default function LeadsScreen() {
             onPress={() => setFilter('hot')}
           >
             <Text style={[styles.filterPillText, filter === 'hot' && styles.filterPillTextActive]}>
-              🔥 Hot Leads (Score 90+)
+              🔥 Hot Leads (90+)
             </Text>
           </TouchableOpacity>
 
@@ -148,14 +149,14 @@ export default function LeadsScreen() {
                     style={[
                       styles.scoreBadge,
                       lead.score >= 90
-                        ? { backgroundColor: 'rgba(239, 68, 68, 0.15)', borderColor: '#ef4444' }
-                        : { backgroundColor: 'rgba(59, 130, 246, 0.15)', borderColor: '#3b82f6' },
+                        ? { backgroundColor: '#fef2f2', borderColor: '#fecdd3' }
+                        : { backgroundColor: '#eff6ff', borderColor: '#bfdbfe' },
                     ]}
                   >
                     <Text
                       style={[
                         styles.scoreBadgeText,
-                        lead.score >= 90 ? { color: '#f87171' } : { color: '#60a5fa' },
+                        lead.score >= 90 ? { color: '#e11d48' } : { color: '#2563eb' },
                       ]}
                     >
                       {lead.score >= 90 ? '🔥' : '⚡'} Score {lead.score}
@@ -166,7 +167,7 @@ export default function LeadsScreen() {
               </View>
             </View>
 
-            {/* Requirement & Budget Box */}
+            {/* Requirement Box */}
             <View style={styles.requirementBox}>
               <View style={styles.rowBetween}>
                 <Text style={styles.reqLabel}>Requirement:</Text>
@@ -184,10 +185,10 @@ export default function LeadsScreen() {
               </View>
             </View>
 
-            {/* Site visit or notes highlight */}
+            {/* Site visit highlight */}
             {lead.site_visit_date ? (
               <View style={styles.siteVisitHighlight}>
-                <Ionicons name="car" size={14} color="#f59e0b" style={{ marginRight: 6 }} />
+                <Ionicons name="car" size={14} color="#d97706" style={{ marginRight: 6 }} />
                 <Text style={styles.siteVisitText}>
                   Site Tour Scheduled: <Text style={{ fontWeight: 'bold' }}>{lead.site_visit_date}</Text>
                 </Text>
@@ -206,7 +207,7 @@ export default function LeadsScreen() {
                 style={styles.callActionBtn}
                 onPress={() => handleCall(lead.phone, lead.name)}
               >
-                <Ionicons name="call" size={16} color="#ffffff" style={{ marginRight: 6 }} />
+                <Ionicons name="call" size={15} color="#ffffff" style={{ marginRight: 6 }} />
                 <Text style={styles.callActionBtnText}>Call</Text>
               </TouchableOpacity>
 
@@ -214,7 +215,7 @@ export default function LeadsScreen() {
                 style={styles.waActionBtn}
                 onPress={() => handleWhatsApp(lead.phone, lead.name, lead.property_type)}
               >
-                <Ionicons name="logo-whatsapp" size={16} color="#ffffff" style={{ marginRight: 6 }} />
+                <Ionicons name="logo-whatsapp" size={15} color="#ffffff" style={{ marginRight: 6 }} />
                 <Text style={styles.waActionBtnText}>WhatsApp</Text>
               </TouchableOpacity>
 
@@ -222,8 +223,8 @@ export default function LeadsScreen() {
                 style={styles.detailActionBtn}
                 onPress={() => router.push(`/lead/${lead.id}`)}
               >
-                <Ionicons name="eye-outline" size={16} color="#cbd5e1" style={{ marginRight: 6 }} />
-                <Text style={styles.detailActionBtnText}>History</Text>
+                <Ionicons name="eye-outline" size={15} color="#334155" style={{ marginRight: 6 }} />
+                <Text style={styles.detailActionBtnText}>360° Profile</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -238,15 +239,15 @@ export default function LeadsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#090d16',
+    backgroundColor: '#f8fafc', // crisp off-white
   },
   header: {
-    backgroundColor: '#0f172a',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 16,
     paddingTop: Platform.OS === 'ios' ? 52 : 20,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#1e293b',
+    borderBottomColor: '#e2e8f0',
   },
   titleRow: {
     flexDirection: 'row',
@@ -257,35 +258,35 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   countBadge: {
-    backgroundColor: '#1e293b',
+    backgroundColor: '#eff6ff',
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#bfdbfe',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
   },
   countBadgeText: {
     fontSize: 11,
-    color: '#38bdf8',
-    fontWeight: '700',
+    color: '#2563eb',
+    fontWeight: '800',
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1e293b',
+    backgroundColor: '#f8fafc',
     borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: Platform.OS === 'ios' ? 10 : 6,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 8,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#e2e8f0',
     marginBottom: 10,
   },
   searchInput: {
     flex: 1,
-    color: '#f8fafc',
+    color: '#0f172a',
     fontSize: 13,
   },
   filterScroll: {
@@ -295,34 +296,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
-    backgroundColor: '#1e293b',
+    backgroundColor: '#f1f5f9',
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#e2e8f0',
     marginRight: 8,
   },
   filterPillActive: {
-    backgroundColor: '#3b82f6',
-    borderColor: '#3b82f6',
+    backgroundColor: '#2563eb',
+    borderColor: '#2563eb',
   },
   filterPillText: {
     fontSize: 11,
-    fontWeight: '600',
-    color: '#94a3b8',
+    fontWeight: '700',
+    color: '#64748b',
   },
   filterPillTextActive: {
     color: '#ffffff',
-    fontWeight: '700',
+    fontWeight: '800',
   },
   listContainer: {
     padding: 16,
   },
   leadCard: {
-    backgroundColor: '#111827',
-    borderRadius: 16,
+    backgroundColor: '#ffffff',
+    borderRadius: 18,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 14,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
   },
   leadHeaderRow: {
     flexDirection: 'row',
@@ -333,14 +339,14 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: '#1e293b',
+    backgroundColor: '#eff6ff',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#3b82f6',
+    borderColor: '#bfdbfe',
   },
   leadAvatarInitials: {
-    color: '#38bdf8',
+    color: '#2563eb',
     fontSize: 15,
     fontWeight: '800',
   },
@@ -352,11 +358,11 @@ const styles = StyleSheet.create({
   leadName: {
     fontSize: 16,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   leadPhone: {
     fontSize: 12,
-    color: '#9ca3af',
+    color: '#64748b',
     marginTop: 2,
   },
   scoreBadge: {
@@ -370,12 +376,12 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   requirementBox: {
-    backgroundColor: '#0f172a',
-    borderRadius: 10,
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
     padding: 10,
     gap: 6,
     borderWidth: 1,
-    borderColor: '#1e293b',
+    borderColor: '#e2e8f0',
     marginBottom: 8,
   },
   reqLabel: {
@@ -385,42 +391,42 @@ const styles = StyleSheet.create({
   },
   reqValue: {
     fontSize: 12,
-    color: '#f8fafc',
-    fontWeight: '600',
+    color: '#0f172a',
+    fontWeight: '700',
   },
   reqBudgetValue: {
     fontSize: 12,
-    color: '#10b981',
-    fontWeight: '700',
+    color: '#059669',
+    fontWeight: '800',
   },
   sourceTag: {
-    backgroundColor: '#1e293b',
+    backgroundColor: '#e2e8f0',
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 6,
   },
   sourceTagText: {
     fontSize: 10,
-    color: '#94a3b8',
-    fontWeight: '600',
+    color: '#334155',
+    fontWeight: '700',
   },
   siteVisitHighlight: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    backgroundColor: '#fffbeb',
     borderRadius: 8,
     padding: 8,
     borderWidth: 1,
-    borderColor: 'rgba(245, 158, 11, 0.3)',
+    borderColor: '#fde68a',
     marginBottom: 8,
   },
   siteVisitText: {
     fontSize: 11,
-    color: '#fbbf24',
+    color: '#b45309',
   },
   leadNotes: {
     fontSize: 11,
-    color: '#9ca3af',
+    color: '#475569',
     lineHeight: 16,
     marginBottom: 10,
     fontStyle: 'italic',
@@ -429,13 +435,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     borderTopWidth: 1,
-    borderTopColor: '#1f2937',
+    borderTopColor: '#f1f5f9',
     paddingTop: 10,
   },
   callActionBtn: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#2563eb',
     borderRadius: 10,
     paddingVertical: 9,
     justifyContent: 'center',
@@ -462,18 +468,18 @@ const styles = StyleSheet.create({
   },
   detailActionBtn: {
     flexDirection: 'row',
-    backgroundColor: '#1e293b',
+    backgroundColor: '#f8fafc',
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 9,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#e2e8f0',
   },
   detailActionBtnText: {
-    color: '#cbd5e1',
+    color: '#334155',
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 });

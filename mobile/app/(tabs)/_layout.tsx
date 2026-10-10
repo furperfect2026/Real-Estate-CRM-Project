@@ -2,34 +2,41 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Platform } from 'react-native';
+import { THEME } from '../../constants/Colors';
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#3b82f6', // blue-500
-        tabBarInactiveTintColor: '#64748b', // slate-500
+        tabBarActiveTintColor: THEME.primary, // #2563eb
+        tabBarInactiveTintColor: THEME.textSecondary, // #475569
         tabBarStyle: {
-          backgroundColor: '#0f172a', // slate-900
-          borderTopColor: '#1e293b', // slate-800
+          backgroundColor: '#ffffff', // pure white bottom bar
+          borderTopColor: THEME.border, // #e2e8f0
           borderTopWidth: 1,
           height: Platform.OS === 'ios' ? 88 : 64,
           paddingBottom: Platform.OS === 'ios' ? 28 : 10,
           paddingTop: 8,
+          shadowColor: '#000000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.05,
+          shadowRadius: 4,
+          elevation: 5,
         },
         tabBarLabelStyle: {
           fontSize: 11,
-          fontWeight: '600',
+          fontWeight: '700',
         },
         headerStyle: {
-          backgroundColor: '#0f172a',
-          borderBottomColor: '#1e293b',
+          backgroundColor: '#ffffff',
+          borderBottomColor: THEME.border,
           borderBottomWidth: 1,
         },
-        headerTintColor: '#f8fafc',
+        headerTintColor: THEME.text,
         headerTitleStyle: {
-          fontWeight: '700',
+          fontWeight: '800',
           fontSize: 18,
+          color: THEME.text,
         },
         headerShown: false,
       }}

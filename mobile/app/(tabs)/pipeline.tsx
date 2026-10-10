@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { PIPELINE_STAGES, MOCK_LEADS, MobileLead } from '../../data/mock-crm-data';
+import { THEME } from '../../constants/Colors';
 
 export default function PipelineScreen() {
   const router = useRouter();
@@ -49,14 +50,14 @@ export default function PipelineScreen() {
         <View style={styles.rowBetween}>
           <View>
             <Text style={styles.title}>Sales Pipeline</Text>
-            <Text style={styles.subTitle}>7-Stage Deal Flow Tracker</Text>
+            <Text style={styles.subTitle}>7-Stage Deal Flow Kanban</Text>
           </View>
           <View style={styles.pipelineTotalBadge}>
             <Text style={styles.pipelineTotalText}>Total: ₹69.9 Cr</Text>
           </View>
         </View>
 
-        {/* Horizontal Stage Selector Pills */}
+        {/* Stage Selector Pills */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.stageTabsScroll}>
           {PIPELINE_STAGES.map((st) => (
             <TouchableOpacity
@@ -88,7 +89,7 @@ export default function PipelineScreen() {
         <View style={styles.rowBetween}>
           <View>
             <Text style={styles.bannerStageName}>{selectedStage.label}</Text>
-            <Text style={styles.bannerVolume}>{selectedStage.value} in Stage Pipeline</Text>
+            <Text style={styles.bannerVolume}>{selectedStage.value} Active Pipeline Volume</Text>
           </View>
           <View style={[styles.bannerCountPill, { backgroundColor: selectedStage.color }]}>
             <Text style={styles.bannerCountText}>{selectedStage.count} Leads</Text>
@@ -148,14 +149,14 @@ export default function PipelineScreen() {
                   style={styles.viewBtn}
                   onPress={() => router.push(`/lead/${lead.id}`)}
                 >
-                  <Ionicons name="eye" size={14} color="#94a3b8" />
+                  <Ionicons name="eye" size={15} color="#475569" />
                 </TouchableOpacity>
               </View>
             </View>
           ))
         ) : (
           <View style={styles.emptyState}>
-            <Ionicons name="albums-outline" size={44} color="#334155" />
+            <Ionicons name="albums-outline" size={44} color="#94a3b8" />
             <Text style={styles.emptyTitle}>Stage Active ({selectedStage.count} deals registered)</Text>
             <Text style={styles.emptySub}>
               Showing sample leads for demonstration. Tap on other stages (e.g. New Lead, Contacted, Site Visit) to view prospects.
@@ -172,15 +173,15 @@ export default function PipelineScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#090d16',
+    backgroundColor: '#f8fafc', // crisp off-white
   },
   header: {
-    backgroundColor: '#0f172a',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 16,
     paddingTop: Platform.OS === 'ios' ? 52 : 20,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#1e293b',
+    borderBottomColor: '#e2e8f0',
   },
   rowBetween: {
     flexDirection: 'row',
@@ -194,23 +195,23 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   subTitle: {
     fontSize: 11,
-    color: '#94a3b8',
+    color: '#64748b',
     marginTop: 2,
   },
   pipelineTotalBadge: {
-    backgroundColor: '#1e293b',
+    backgroundColor: '#ecfdf5',
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#a7f3d0',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 12,
   },
   pipelineTotalText: {
-    color: '#10b981',
+    color: '#059669',
     fontWeight: '800',
     fontSize: 12,
   },
@@ -219,37 +220,42 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   stageTab: {
-    backgroundColor: '#1e293b',
+    backgroundColor: '#f1f5f9',
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderRadius: 16,
     marginRight: 8,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#e2e8f0',
   },
   stageTabText: {
     fontSize: 11,
-    fontWeight: '600',
-    color: '#94a3b8',
+    fontWeight: '700',
+    color: '#64748b',
   },
   stageBanner: {
-    backgroundColor: '#111827',
+    backgroundColor: '#ffffff',
     margin: 16,
     marginBottom: 8,
     padding: 14,
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     borderLeftWidth: 4,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 2,
   },
   bannerStageName: {
     fontSize: 15,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   bannerVolume: {
     fontSize: 12,
-    color: '#9ca3af',
+    color: '#64748b',
     marginTop: 2,
   },
   bannerCountPill: {
@@ -267,45 +273,52 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   pipelineLeadCard: {
-    backgroundColor: '#111827',
-    borderRadius: 14,
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 12,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 2,
   },
   avatarPill: {
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: '#1e293b',
+    backgroundColor: '#eff6ff',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#3b82f6',
+    borderColor: '#bfdbfe',
   },
   avatarPillText: {
-    color: '#38bdf8',
+    color: '#2563eb',
     fontWeight: '800',
     fontSize: 14,
   },
   leadCardName: {
     fontSize: 15,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   leadCardPhone: {
     fontSize: 11,
-    color: '#9ca3af',
+    color: '#64748b',
   },
   scoreTag: {
-    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+    backgroundColor: '#fef2f2',
+    borderWidth: 1,
+    borderColor: '#fecdd3',
     borderRadius: 8,
     paddingHorizontal: 6,
     paddingVertical: 2,
   },
   scoreTagText: {
-    color: '#f87171',
+    color: '#e11d48',
     fontSize: 10,
     fontWeight: '800',
   },
@@ -314,22 +327,22 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#f1f5f9',
     gap: 4,
   },
   reqText: {
     fontSize: 12,
-    color: '#cbd5e1',
-    fontWeight: '500',
+    color: '#334155',
+    fontWeight: '600',
   },
   budgetText: {
     fontSize: 12,
-    color: '#10b981',
-    fontWeight: '700',
+    color: '#059669',
+    fontWeight: '800',
   },
   leadNotesText: {
     fontSize: 11,
-    color: '#94a3b8',
+    color: '#64748b',
     marginBottom: 10,
     fontStyle: 'italic',
   },
@@ -341,7 +354,7 @@ const styles = StyleSheet.create({
   cardCallBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#2563eb',
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderRadius: 8,
@@ -353,42 +366,42 @@ const styles = StyleSheet.create({
   },
   advanceBtn: {
     flex: 1,
-    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+    backgroundColor: '#ecfdf5',
     borderWidth: 1,
-    borderColor: 'rgba(16, 185, 129, 0.4)',
+    borderColor: '#a7f3d0',
     paddingVertical: 7,
     borderRadius: 8,
     alignItems: 'center',
   },
   advanceBtnText: {
-    color: '#10b981',
+    color: '#059669',
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   viewBtn: {
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: '#1e293b',
+    backgroundColor: '#f8fafc',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#e2e8f0',
   },
   emptyState: {
     alignItems: 'center',
     paddingVertical: 40,
     paddingHorizontal: 20,
-    backgroundColor: '#111827',
-    borderRadius: 14,
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginTop: 10,
   },
   emptyTitle: {
     fontSize: 14,
-    fontWeight: '700',
-    color: '#f8fafc',
+    fontWeight: '800',
+    color: '#0f172a',
     marginTop: 12,
   },
   emptySub: {

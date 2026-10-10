@@ -8,12 +8,12 @@ import {
   TextInput,
   Modal,
   Linking,
-  Alert,
   Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { MOCK_PROPERTIES, MOCK_LEADS, MobileProperty } from '../../data/mock-crm-data';
+import { THEME } from '../../constants/Colors';
 
 export default function PropertiesScreen() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function PropertiesScreen() {
         <View style={styles.rowBetween}>
           <View>
             <Text style={styles.title}>Property Inventory</Text>
-            <Text style={styles.subTitle}>5 Active Developer Projects</Text>
+            <Text style={styles.subTitle}>5 Active Developer Townships</Text>
           </View>
           <View style={styles.inventoryBadge}>
             <Text style={styles.inventoryBadgeText}>RERA Approved</Text>
@@ -42,11 +42,11 @@ export default function PropertiesScreen() {
         </View>
 
         <View style={styles.searchBar}>
-          <Ionicons name="search" size={18} color="#94a3b8" style={{ marginRight: 8 }} />
+          <Ionicons name="search" size={18} color="#64748b" style={{ marginRight: 8 }} />
           <TextInput
             style={styles.searchInput}
             placeholder="Search projects, location, or builder..."
-            placeholderTextColor="#64748b"
+            placeholderTextColor="#94a3b8"
             value={search}
             onChangeText={setSearch}
           />
@@ -65,14 +65,14 @@ export default function PropertiesScreen() {
                 style={[
                   styles.statusTag,
                   prop.status === 'Ready to Move'
-                    ? { backgroundColor: 'rgba(16, 185, 129, 0.15)', borderColor: '#10b981' }
-                    : { backgroundColor: 'rgba(59, 130, 246, 0.15)', borderColor: '#3b82f6' },
+                    ? { backgroundColor: '#ecfdf5', borderColor: '#a7f3d0' }
+                    : { backgroundColor: '#eff6ff', borderColor: '#bfdbfe' },
                 ]}
               >
                 <Text
                   style={[
                     styles.statusTagText,
-                    prop.status === 'Ready to Move' ? { color: '#10b981' } : { color: '#60a5fa' },
+                    prop.status === 'Ready to Move' ? { color: '#059669' } : { color: '#2563eb' },
                   ]}
                 >
                   {prop.status}
@@ -81,7 +81,7 @@ export default function PropertiesScreen() {
             </View>
 
             <View style={styles.locationRow}>
-              <Ionicons name="location" size={14} color="#f59e0b" style={{ marginRight: 4 }} />
+              <Ionicons name="location" size={14} color="#d97706" style={{ marginRight: 4 }} />
               <Text style={styles.locationText}>{prop.location}</Text>
             </View>
 
@@ -112,7 +112,7 @@ export default function PropertiesScreen() {
               style={styles.matchBtn}
               onPress={() => setSelectedProp(prop)}
             >
-              <Ionicons name="sparkles" size={16} color="#ffffff" style={{ marginRight: 6 }} />
+              <Ionicons name="sparkles" size={15} color="#ffffff" style={{ marginRight: 6 }} />
               <Text style={styles.matchBtnText}>
                 AI Match: {prop.matched_leads_count} Interested Leads Found
               </Text>
@@ -142,7 +142,7 @@ export default function PropertiesScreen() {
                   style={styles.modalCloseBtn}
                   onPress={() => setSelectedProp(null)}
                 >
-                  <Ionicons name="close" size={20} color="#f8fafc" />
+                  <Ionicons name="close" size={20} color="#0f172a" />
                 </TouchableOpacity>
               </View>
 
@@ -204,15 +204,15 @@ export default function PropertiesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#090d16',
+    backgroundColor: '#f8fafc',
   },
   header: {
-    backgroundColor: '#0f172a',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 16,
     paddingTop: Platform.OS === 'ios' ? 52 : 20,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#1e293b',
+    borderBottomColor: '#e2e8f0',
   },
   rowBetween: {
     flexDirection: 'row',
@@ -222,61 +222,66 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   subTitle: {
     fontSize: 11,
-    color: '#94a3b8',
+    color: '#64748b',
     marginTop: 2,
   },
   inventoryBadge: {
-    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+    backgroundColor: '#ecfdf5',
     borderWidth: 1,
-    borderColor: '#10b981',
+    borderColor: '#a7f3d0',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
   },
   inventoryBadgeText: {
-    color: '#10b981',
-    fontWeight: '700',
+    color: '#059669',
+    fontWeight: '800',
     fontSize: 11,
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1e293b',
+    backgroundColor: '#f8fafc',
     borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: Platform.OS === 'ios' ? 10 : 6,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 8,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#e2e8f0',
     marginTop: 12,
   },
   searchInput: {
     flex: 1,
-    color: '#f8fafc',
+    color: '#0f172a',
     fontSize: 13,
   },
   listContainer: {
     padding: 16,
   },
   propCard: {
-    backgroundColor: '#111827',
-    borderRadius: 16,
+    backgroundColor: '#ffffff',
+    borderRadius: 18,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 14,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
   },
   propTitle: {
     fontSize: 16,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   propBuilder: {
     fontSize: 12,
-    color: '#94a3b8',
+    color: '#64748b',
     marginTop: 2,
   },
   statusTag: {
@@ -287,7 +292,7 @@ const styles = StyleSheet.create({
   },
   statusTagText: {
     fontSize: 10,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   locationRow: {
     flexDirection: 'row',
@@ -296,16 +301,16 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontSize: 12,
-    color: '#cbd5e1',
+    color: '#334155',
   },
   detailsGrid: {
     flexDirection: 'row',
-    backgroundColor: '#0f172a',
-    borderRadius: 10,
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
     padding: 10,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#1e293b',
+    borderColor: '#e2e8f0',
   },
   detailItem: {
     flex: 1,
@@ -317,7 +322,7 @@ const styles = StyleSheet.create({
   },
   detailVal: {
     fontSize: 12,
-    color: '#f8fafc',
+    color: '#0f172a',
     fontWeight: '700',
     marginTop: 2,
   },
@@ -327,7 +332,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#f1f5f9',
     marginBottom: 12,
   },
   priceLbl: {
@@ -337,7 +342,7 @@ const styles = StyleSheet.create({
   priceVal: {
     fontSize: 15,
     fontWeight: '900',
-    color: '#10b981',
+    color: '#059669',
     marginTop: 2,
   },
   reraLbl: {
@@ -346,14 +351,14 @@ const styles = StyleSheet.create({
   },
   reraVal: {
     fontSize: 11,
-    fontWeight: '600',
-    color: '#cbd5e1',
+    fontWeight: '700',
+    color: '#334155',
     marginTop: 2,
   },
   matchBtn: {
     flexDirection: 'row',
-    backgroundColor: '#8b5cf6',
-    borderRadius: 10,
+    backgroundColor: '#7c3aed',
+    borderRadius: 12,
     paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -365,73 +370,74 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: 'rgba(15, 23, 42, 0.6)',
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: '#0f172a',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    backgroundColor: '#ffffff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
     padding: 20,
     borderWidth: 1,
-    borderColor: '#1e293b',
+    borderColor: '#e2e8f0',
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   modalSub: {
     fontSize: 12,
-    color: '#94a3b8',
+    color: '#64748b',
     marginTop: 2,
   },
   modalCloseBtn: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#1e293b',
+    backgroundColor: '#f1f5f9',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalSectionHeading: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#cbd5e1',
+    color: '#334155',
     marginVertical: 12,
   },
   matchedLeadItem: {
-    backgroundColor: '#111827',
-    borderRadius: 12,
+    backgroundColor: '#f8fafc',
+    borderRadius: 14,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 10,
   },
   matchedLeadName: {
     fontSize: 14,
-    fontWeight: '700',
-    color: '#f8fafc',
+    fontWeight: '800',
+    color: '#0f172a',
   },
   matchedLeadPhone: {
     fontSize: 11,
-    color: '#94a3b8',
+    color: '#64748b',
   },
   matchedScoreTag: {
-    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+    backgroundColor: '#ecfdf5',
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 3,
   },
   matchedScoreText: {
-    color: '#10b981',
+    color: '#059669',
     fontSize: 11,
     fontWeight: '800',
   },
   matchedLeadBudget: {
     fontSize: 11,
-    color: '#cbd5e1',
+    color: '#334155',
     marginVertical: 6,
+    fontWeight: '600',
   },
   matchedActionRow: {
     flexDirection: 'row',
@@ -441,7 +447,7 @@ const styles = StyleSheet.create({
   matchedCallBtn: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#2563eb',
     borderRadius: 8,
     paddingVertical: 7,
     justifyContent: 'center',

@@ -17,12 +17,12 @@ import {
   PIPELINE_STAGES,
   TEAM_LEADERBOARD,
 } from '../../data/mock-crm-data';
+import { THEME } from '../../constants/Colors';
 
 export default function DashboardScreen() {
   const router = useRouter();
   const { currentUser, isAdmin, isManager, isEmployee, switchPersona, personas } = useAuth();
   const [period, setPeriod] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
-  const [showDialerModal, setShowDialerModal] = useState(false);
 
   const periods = [
     { id: '7d' as const, label: '7 Days' },
@@ -55,15 +55,15 @@ export default function DashboardScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* Top Brand & Status Bar */}
+      {/* Top Brand Bar */}
       <View style={styles.brandBar}>
         <View style={styles.brandLeft}>
           <View style={styles.logoBadge}>
-            <Ionicons name="business" size={18} color="#3b82f6" />
+            <Ionicons name="business" size={18} color="#ffffff" />
           </View>
           <View>
             <Text style={styles.brandTitle}>Tathastu Infra</Text>
-            <Text style={styles.brandSubtitle}>Sales ERP & CRM</Text>
+            <Text style={styles.brandSubtitle}>Sales ERP & CRM Platform</Text>
           </View>
         </View>
         <View style={styles.liveSyncBadge}>
@@ -72,7 +72,7 @@ export default function DashboardScreen() {
         </View>
       </View>
 
-      {/* Persona Switcher Bar */}
+      {/* Persona Switcher Card */}
       <View style={styles.personaCard}>
         <View style={styles.personaTopRow}>
           <View style={[styles.avatarCircle, { backgroundColor: currentUser.badge_color }]}>
@@ -81,9 +81,9 @@ export default function DashboardScreen() {
           <View style={{ flex: 1, marginLeft: 12 }}>
             <View style={styles.rowAlign}>
               <Text style={styles.userName}>{currentUser.name}</Text>
-              <View style={[styles.roleBadge, { borderColor: currentUser.badge_color }]}>
+              <View style={[styles.roleBadge, { backgroundColor: `${currentUser.badge_color}14`, borderColor: currentUser.badge_color }]}>
                 <Text style={[styles.roleBadgeText, { color: currentUser.badge_color }]}>
-                  {isAdmin ? 'ADMIN' : isManager ? 'MANAGER' : 'CALLER'}
+                  {isAdmin ? 'ADMIN PANEL' : isManager ? 'MANAGER PANEL' : 'CALLER WORKBENCH'}
                 </Text>
               </View>
             </View>
@@ -106,7 +106,7 @@ export default function DashboardScreen() {
               <Text
                 style={[
                   styles.personaBtnText,
-                  currentUser.id === p.id && { color: '#ffffff', fontWeight: '700' },
+                  currentUser.id === p.id && { color: '#ffffff', fontWeight: '800' },
                 ]}
               >
                 {p.name.split(' ')[0]}
@@ -134,15 +134,15 @@ export default function DashboardScreen() {
       {/* Primary 4 KPI Cards */}
       <View style={styles.kpiGrid}>
         <TouchableOpacity
-          style={[styles.kpiCard, { borderColor: 'rgba(59, 130, 246, 0.4)' }]}
+          style={styles.kpiCard}
           onPress={() => router.push('/pipeline')}
         >
           <View style={styles.kpiHeader}>
             <Text style={styles.kpiTitle}>
               {isAdmin ? 'Pipeline Value' : isManager ? 'Team Pipeline' : 'Calling Queue'}
             </Text>
-            <View style={[styles.kpiIconWrap, { backgroundColor: 'rgba(59, 130, 246, 0.15)' }]}>
-              <Ionicons name="trending-up" size={16} color="#3b82f6" />
+            <View style={[styles.kpiIconWrap, { backgroundColor: '#eff6ff' }]}>
+              <Ionicons name="trending-up" size={16} color="#2563eb" />
             </View>
           </View>
           <Text style={styles.kpiValue}>
@@ -155,14 +155,14 @@ export default function DashboardScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.kpiCard, { borderColor: 'rgba(16, 185, 129, 0.4)' }]}
+          style={styles.kpiCard}
           onPress={() => router.push('/leads')}
         >
           <View style={styles.kpiHeader}>
             <Text style={styles.kpiTitle}>
               {isAdmin ? 'Inbound Leads' : isManager ? 'Team Inflow' : 'Calls Today'}
             </Text>
-            <View style={[styles.kpiIconWrap, { backgroundColor: 'rgba(16, 185, 129, 0.15)' }]}>
+            <View style={[styles.kpiIconWrap, { backgroundColor: '#ecfdf5' }]}>
               <Ionicons name="people" size={16} color="#10b981" />
             </View>
           </View>
@@ -176,14 +176,14 @@ export default function DashboardScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.kpiCard, { borderColor: 'rgba(245, 158, 11, 0.4)' }]}
+          style={styles.kpiCard}
           onPress={() => router.push('/leads')}
         >
           <View style={styles.kpiHeader}>
             <Text style={styles.kpiTitle}>
               {isAdmin ? 'Site Visits' : isManager ? 'Team Visits' : 'My Visits'}
             </Text>
-            <View style={[styles.kpiIconWrap, { backgroundColor: 'rgba(245, 158, 11, 0.15)' }]}>
+            <View style={[styles.kpiIconWrap, { backgroundColor: '#fffbeb' }]}>
               <Ionicons name="calendar" size={16} color="#f59e0b" />
             </View>
           </View>
@@ -197,15 +197,15 @@ export default function DashboardScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.kpiCard, { borderColor: 'rgba(168, 85, 247, 0.4)' }]}
+          style={styles.kpiCard}
           onPress={() => router.push('/pipeline')}
         >
           <View style={styles.kpiHeader}>
             <Text style={styles.kpiTitle}>
               {isAdmin ? 'Closed Bookings' : isManager ? 'Team Bookings' : 'My Bookings'}
             </Text>
-            <View style={[styles.kpiIconWrap, { backgroundColor: 'rgba(168, 85, 247, 0.15)' }]}>
-              <Ionicons name="trophy" size={16} color="#a855f7" />
+            <View style={[styles.kpiIconWrap, { backgroundColor: '#f5f3ff' }]}>
+              <Ionicons name="trophy" size={16} color="#8b5cf6" />
             </View>
           </View>
           <Text style={styles.kpiValue}>
@@ -231,7 +231,7 @@ export default function DashboardScreen() {
             </View>
           </View>
           <Text style={styles.urgentDesc}>
-            Missed follow-up for <Text style={{ fontWeight: 'bold', color: '#f8fafc' }}>Vikram Rao</Text> (Pride World City) + 1 site visit scheduled at 11:00 AM.
+            Missed follow-up for <Text style={{ fontWeight: 'bold', color: '#0f172a' }}>Vikram Rao</Text> (Pride World City) + 1 site visit scheduled at 11:00 AM with cab pickup.
           </Text>
           <View style={styles.urgentBtnRow}>
             <TouchableOpacity
@@ -245,18 +245,18 @@ export default function DashboardScreen() {
               style={styles.urgentWaBtn}
               onPress={() => handleWhatsApp('+91 98231 44521', 'Vikram Rao')}
             >
-              <Ionicons name="logo-whatsapp" size={14} color="#10b981" style={{ marginRight: 6 }} />
+              <Ionicons name="logo-whatsapp" size={14} color="#059669" style={{ marginRight: 6 }} />
               <Text style={styles.urgentWaBtnText}>WhatsApp</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
 
-      {/* Caller Performance Progress Bar (If in Caller mode or preview) */}
+      {/* Caller Performance Progress Bar */}
       <View style={styles.callerGoalCard}>
         <View style={styles.rowBetween}>
           <View>
-            <Text style={styles.goalLabel}>DAILY CALLING GOAL</Text>
+            <Text style={styles.goalLabel}>DAILY CALLING TARGET</Text>
             <Text style={styles.goalCount}>14 / 25 Calls Completed (56%)</Text>
           </View>
           <View style={styles.goalPill}>
@@ -317,8 +317,8 @@ export default function DashboardScreen() {
           style={styles.quickActionBtn}
           onPress={() => handleDialLead('+91 98231 44521', 'Active Queue')}
         >
-          <View style={[styles.qaIconWrap, { backgroundColor: 'rgba(59, 130, 246, 0.2)' }]}>
-            <Ionicons name="call" size={20} color="#3b82f6" />
+          <View style={[styles.qaIconWrap, { backgroundColor: '#eff6ff' }]}>
+            <Ionicons name="call" size={20} color="#2563eb" />
           </View>
           <Text style={styles.qaTitle}>Callen Dialer</Text>
           <Text style={styles.qaSubtitle}>Start Queue</Text>
@@ -328,8 +328,8 @@ export default function DashboardScreen() {
           style={styles.quickActionBtn}
           onPress={() => router.push('/properties')}
         >
-          <View style={[styles.qaIconWrap, { backgroundColor: 'rgba(168, 85, 247, 0.2)' }]}>
-            <Ionicons name="sparkles" size={20} color="#a855f7" />
+          <View style={[styles.qaIconWrap, { backgroundColor: '#f5f3ff' }]}>
+            <Ionicons name="sparkles" size={20} color="#8b5cf6" />
           </View>
           <Text style={styles.qaTitle}>AI Matchmaker</Text>
           <Text style={styles.qaSubtitle}>Fit Inventory</Text>
@@ -339,7 +339,7 @@ export default function DashboardScreen() {
           style={styles.quickActionBtn}
           onPress={() => router.push('/leads')}
         >
-          <View style={[styles.qaIconWrap, { backgroundColor: 'rgba(16, 185, 129, 0.2)' }]}>
+          <View style={[styles.qaIconWrap, { backgroundColor: '#ecfdf5' }]}>
             <Ionicons name="person-add" size={20} color="#10b981" />
           </View>
           <Text style={styles.qaTitle}>Add Lead</Text>
@@ -350,7 +350,7 @@ export default function DashboardScreen() {
           style={styles.quickActionBtn}
           onPress={() => router.push('/properties')}
         >
-          <View style={[styles.qaIconWrap, { backgroundColor: 'rgba(245, 158, 11, 0.2)' }]}>
+          <View style={[styles.qaIconWrap, { backgroundColor: '#fffbeb' }]}>
             <Ionicons name="business" size={20} color="#f59e0b" />
           </View>
           <Text style={styles.qaTitle}>Properties</Text>
@@ -369,7 +369,7 @@ export default function DashboardScreen() {
               <Text style={styles.sourceCount}>144 leads (42%)</Text>
             </View>
             <View style={styles.sourceTrack}>
-              <View style={[styles.sourceFill, { width: '42%', backgroundColor: '#3b82f6' }]} />
+              <View style={[styles.sourceFill, { width: '42%', backgroundColor: '#2563eb' }]} />
             </View>
           </View>
 
@@ -399,7 +399,7 @@ export default function DashboardScreen() {
               <Text style={styles.sourceCount}>40 leads (12%)</Text>
             </View>
             <View style={styles.sourceTrack}>
-              <View style={[styles.sourceFill, { width: '12%', backgroundColor: '#a855f7' }]} />
+              <View style={[styles.sourceFill, { width: '12%', backgroundColor: '#8b5cf6' }]} />
             </View>
           </View>
         </View>
@@ -425,7 +425,7 @@ export default function DashboardScreen() {
                     ? { backgroundColor: '#f59e0b' }
                     : tm.rank === 2
                     ? { backgroundColor: '#94a3b8' }
-                    : { backgroundColor: '#334155' },
+                    : { backgroundColor: '#cbd5e1' },
                 ]}
               >
                 <Text style={styles.rankNum}>#{tm.rank}</Text>
@@ -445,7 +445,7 @@ export default function DashboardScreen() {
 
       {/* Recent Hot Leads Feed */}
       <View style={styles.sectionHeaderRow}>
-        <Text style={styles.sectionTitle}>High Priority Leads</Text>
+        <Text style={styles.sectionTitle}>High Priority Inbound Leads</Text>
         <TouchableOpacity onPress={() => router.push('/leads')}>
           <Text style={styles.sectionAction}>See All ({MOCK_LEADS.length}) →</Text>
         </TouchableOpacity>
@@ -480,11 +480,11 @@ export default function DashboardScreen() {
 
           <View style={styles.leadCardBody}>
             <Text style={styles.leadPropType}>
-              <Text style={{ color: '#94a3b8' }}>Req: </Text>
+              <Text style={{ color: '#64748b' }}>Requirement: </Text>
               {lead.property_type}
             </Text>
             <Text style={styles.leadBudget}>
-              <Text style={{ color: '#94a3b8' }}>Budget: </Text>
+              <Text style={{ color: '#64748b' }}>Budget: </Text>
               {lead.budget}
             </Text>
           </View>
@@ -498,19 +498,19 @@ export default function DashboardScreen() {
                 style={styles.actionIconBtn}
                 onPress={() => handleDialLead(lead.phone, lead.name)}
               >
-                <Ionicons name="call" size={16} color="#3b82f6" />
+                <Ionicons name="call" size={15} color="#2563eb" />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.actionIconBtn}
                 onPress={() => handleWhatsApp(lead.phone, lead.name)}
               >
-                <Ionicons name="logo-whatsapp" size={16} color="#10b981" />
+                <Ionicons name="logo-whatsapp" size={15} color="#10b981" />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.actionIconBtn}
                 onPress={() => router.push(`/lead/${lead.id}`)}
               >
-                <Ionicons name="chevron-forward" size={16} color="#94a3b8" />
+                <Ionicons name="chevron-forward" size={15} color="#64748b" />
               </TouchableOpacity>
             </View>
           </View>
@@ -525,7 +525,7 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#090d16', // Ultra dark slate
+    backgroundColor: '#f8fafc', // crisp off-white background matching web
   },
   contentContainer: {
     padding: 16,
@@ -545,30 +545,33 @@ const styles = StyleSheet.create({
   logoBadge: {
     width: 36,
     height: 36,
-    borderRadius: 10,
-    backgroundColor: '#1e293b',
-    borderWidth: 1,
-    borderColor: '#334155',
+    borderRadius: 12,
+    backgroundColor: '#2563eb', // royal blue
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#2563eb',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   brandTitle: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a', // slate-900
     letterSpacing: -0.3,
   },
   brandSubtitle: {
     fontSize: 11,
-    color: '#94a3b8',
+    color: '#64748b', // slate-500
     fontWeight: '500',
   },
   liveSyncBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    backgroundColor: '#ecfdf5',
     borderWidth: 1,
-    borderColor: 'rgba(16, 185, 129, 0.3)',
+    borderColor: '#a7f3d0',
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 4,
@@ -581,17 +584,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#10b981',
   },
   liveSyncText: {
-    color: '#10b981',
+    color: '#059669',
     fontSize: 11,
     fontWeight: '700',
   },
   personaCard: {
-    backgroundColor: '#111827',
-    borderRadius: 16,
-    padding: 14,
+    backgroundColor: '#ffffff', // pure white card
+    borderRadius: 20,
+    padding: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0', // slate-200
     marginBottom: 14,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
   personaTopRow: {
     flexDirection: 'row',
@@ -618,7 +626,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 17,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   roleBadge: {
     borderWidth: 1,
@@ -633,61 +641,61 @@ const styles = StyleSheet.create({
   },
   userRoleTitle: {
     fontSize: 12,
-    color: '#9ca3af',
+    color: '#64748b',
     marginTop: 2,
   },
   switchPersonaRow: {
     flexDirection: 'row',
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: '#1f2937',
+    borderTopColor: '#f1f5f9',
     paddingTop: 10,
     gap: 8,
   },
   switchLabel: {
-    color: '#6b7280',
+    color: '#64748b',
     fontSize: 11,
     fontWeight: '600',
   },
   personaBtn: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 8,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#374151',
-    backgroundColor: '#1f2937',
+    borderColor: '#e2e8f0',
+    backgroundColor: '#f8fafc',
   },
   personaBtnText: {
-    color: '#d1d5db',
+    color: '#475569',
     fontSize: 11,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   periodRow: {
     flexDirection: 'row',
-    backgroundColor: '#111827',
-    borderRadius: 12,
+    backgroundColor: '#ffffff',
+    borderRadius: 14,
     padding: 4,
     marginBottom: 14,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
   },
   periodTab: {
     flex: 1,
-    paddingVertical: 6,
+    paddingVertical: 7,
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 10,
   },
   periodTabActive: {
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#2563eb', // royal blue
   },
   periodTabText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#9ca3af',
+    color: '#64748b',
   },
   periodTabTextActive: {
     color: '#ffffff',
-    fontWeight: '700',
+    fontWeight: '800',
   },
   kpiGrid: {
     flexDirection: 'row',
@@ -697,10 +705,16 @@ const styles = StyleSheet.create({
   },
   kpiCard: {
     width: '48.3%',
-    backgroundColor: '#111827',
-    borderRadius: 14,
-    padding: 12,
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 14,
     borderWidth: 1,
+    borderColor: '#e2e8f0',
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    elevation: 2,
   },
   kpiHeader: {
     flexDirection: 'row',
@@ -710,22 +724,23 @@ const styles = StyleSheet.create({
   },
   kpiTitle: {
     fontSize: 11,
-    fontWeight: '600',
-    color: '#9ca3af',
+    fontWeight: '700',
+    color: '#64748b',
     flex: 1,
   },
   kpiIconWrap: {
-    width: 26,
-    height: 26,
-    borderRadius: 8,
+    width: 28,
+    height: 28,
+    borderRadius: 9,
     justifyContent: 'center',
     alignItems: 'center',
   },
   kpiValue: {
-    fontSize: 20,
+    fontSize: 21,
     fontWeight: '900',
-    color: '#f8fafc',
+    color: '#0f172a',
     marginBottom: 4,
+    letterSpacing: -0.5,
   },
   kpiFooter: {
     flexDirection: 'column',
@@ -733,19 +748,19 @@ const styles = StyleSheet.create({
   },
   trendUpText: {
     fontSize: 10,
-    fontWeight: '700',
-    color: '#10b981',
+    fontWeight: '800',
+    color: '#059669',
   },
   kpiSub: {
     fontSize: 10,
-    color: '#6b7280',
+    color: '#94a3b8',
   },
   urgentBanner: {
-    backgroundColor: 'rgba(239, 68, 68, 0.08)',
-    borderRadius: 16,
+    backgroundColor: '#fff1f2', // light rose
+    borderRadius: 18,
     padding: 14,
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    borderColor: '#fecdd3',
     flexDirection: 'row',
     marginBottom: 14,
   },
@@ -753,30 +768,30 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+    backgroundColor: '#ffe4e6',
     justifyContent: 'center',
     alignItems: 'center',
   },
   urgentTitle: {
     fontSize: 13,
     fontWeight: '800',
-    color: '#fca5a5',
+    color: '#9f1239',
   },
   urgentPill: {
-    backgroundColor: 'rgba(239, 68, 68, 0.3)',
+    backgroundColor: '#fecdd3',
     borderRadius: 6,
     paddingHorizontal: 6,
     paddingVertical: 2,
   },
   urgentPillText: {
-    color: '#fca5a5',
+    color: '#9f1239',
     fontSize: 9,
     fontWeight: '800',
     textTransform: 'uppercase',
   },
   urgentDesc: {
     fontSize: 12,
-    color: '#cbd5e1',
+    color: '#4c0519',
     marginTop: 4,
     lineHeight: 16,
   },
@@ -788,7 +803,7 @@ const styles = StyleSheet.create({
   urgentCallBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ef4444',
+    backgroundColor: '#e11d48',
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderRadius: 8,
@@ -801,25 +816,30 @@ const styles = StyleSheet.create({
   urgentWaBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+    backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderColor: 'rgba(16, 185, 129, 0.4)',
+    borderColor: '#a7f3d0',
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderRadius: 8,
   },
   urgentWaBtnText: {
-    color: '#10b981',
+    color: '#059669',
     fontSize: 11,
     fontWeight: '700',
   },
   callerGoalCard: {
-    backgroundColor: '#111827',
-    borderRadius: 14,
-    padding: 14,
+    backgroundColor: '#ffffff',
+    borderRadius: 18,
+    padding: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 14,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    elevation: 2,
   },
   rowBetween: {
     flexDirection: 'row',
@@ -829,43 +849,43 @@ const styles = StyleSheet.create({
   goalLabel: {
     fontSize: 10,
     fontWeight: '800',
-    color: '#a855f7',
+    color: '#7c3aed',
     letterSpacing: 0.5,
   },
   goalCount: {
     fontSize: 14,
-    fontWeight: '700',
-    color: '#f8fafc',
+    fontWeight: '800',
+    color: '#0f172a',
     marginTop: 2,
   },
   goalPill: {
-    backgroundColor: '#1f2937',
+    backgroundColor: '#f5f3ff',
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 6,
+    borderRadius: 8,
   },
   goalPillText: {
-    color: '#9ca3af',
+    color: '#7c3aed',
     fontSize: 11,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   progressBarTrack: {
     height: 8,
-    backgroundColor: '#1f2937',
+    backgroundColor: '#f1f5f9',
     borderRadius: 4,
     overflow: 'hidden',
     marginVertical: 12,
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#8b5cf6',
+    backgroundColor: '#7c3aed',
     borderRadius: 4,
   },
   goalStatsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderTopWidth: 1,
-    borderTopColor: '#1f2937',
+    borderTopColor: '#f1f5f9',
     paddingTop: 10,
   },
   goalStatItem: {
@@ -874,11 +894,11 @@ const styles = StyleSheet.create({
   goalStatNum: {
     fontSize: 13,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   goalStatLbl: {
     fontSize: 10,
-    color: '#6b7280',
+    color: '#64748b',
     marginTop: 2,
   },
   sectionHeaderRow: {
@@ -891,31 +911,36 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
     letterSpacing: -0.2,
   },
   sectionAction: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#3b82f6',
+    fontWeight: '700',
+    color: '#2563eb',
   },
   stageScroll: {
     marginBottom: 16,
   },
   stageCard: {
-    backgroundColor: '#111827',
-    borderRadius: 12,
+    backgroundColor: '#ffffff',
+    borderRadius: 14,
     padding: 12,
     marginRight: 10,
     width: 120,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     borderTopWidth: 3,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 2,
   },
   stageName: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#9ca3af',
+    color: '#64748b',
   },
   stageCount: {
     fontSize: 22,
@@ -924,8 +949,8 @@ const styles = StyleSheet.create({
   },
   stageValue: {
     fontSize: 10,
-    fontWeight: '600',
-    color: '#6b7280',
+    fontWeight: '700',
+    color: '#94a3b8',
     marginTop: 2,
   },
   quickActionRow: {
@@ -935,50 +960,60 @@ const styles = StyleSheet.create({
   },
   quickActionBtn: {
     width: '23%',
-    backgroundColor: '#111827',
-    borderRadius: 12,
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
     paddingVertical: 12,
     paddingHorizontal: 4,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 2,
   },
   qaIconWrap: {
     width: 38,
     height: 38,
-    borderRadius: 19,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 6,
   },
   qaTitle: {
     fontSize: 10,
-    fontWeight: '700',
-    color: '#f8fafc',
+    fontWeight: '800',
+    color: '#0f172a',
     textAlign: 'center',
   },
   qaSubtitle: {
     fontSize: 9,
-    color: '#6b7280',
+    color: '#64748b',
     textAlign: 'center',
     marginTop: 2,
   },
   sectionCard: {
-    backgroundColor: '#111827',
-    borderRadius: 14,
-    padding: 14,
+    backgroundColor: '#ffffff',
+    borderRadius: 18,
+    padding: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 16,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    elevation: 2,
   },
   cardHeaderTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   cardHeaderSub: {
     fontSize: 11,
-    color: '#6b7280',
+    color: '#64748b',
     marginTop: 2,
     marginBottom: 12,
   },
@@ -989,24 +1024,24 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   sourceName: {
-    fontSize: 11,
-    color: '#d1d5db',
+    fontSize: 12,
+    color: '#334155',
     fontWeight: '600',
   },
   sourceCount: {
     fontSize: 11,
-    color: '#9ca3af',
+    color: '#64748b',
     fontWeight: '700',
   },
   sourceTrack: {
-    height: 6,
-    backgroundColor: '#1f2937',
-    borderRadius: 3,
+    height: 7,
+    backgroundColor: '#f1f5f9',
+    borderRadius: 4,
     overflow: 'hidden',
   },
   sourceFill: {
     height: '100%',
-    borderRadius: 3,
+    borderRadius: 4,
   },
   leaderboardList: {
     gap: 10,
@@ -1014,9 +1049,9 @@ const styles = StyleSheet.create({
   leaderItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 6,
+    paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#1f2937',
+    borderBottomColor: '#f1f5f9',
   },
   rankCircle: {
     width: 24,
@@ -1033,83 +1068,88 @@ const styles = StyleSheet.create({
   leaderName: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   leaderRole: {
-    fontSize: 10,
-    color: '#9ca3af',
+    fontSize: 11,
+    color: '#64748b',
   },
   leaderRevenue: {
     fontSize: 13,
     fontWeight: '800',
-    color: '#10b981',
+    color: '#059669',
   },
   leaderDeals: {
     fontSize: 10,
-    color: '#6b7280',
+    color: '#94a3b8',
   },
   recentLeadCard: {
-    backgroundColor: '#111827',
-    borderRadius: 14,
-    padding: 12,
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 14,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 10,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    elevation: 2,
   },
   leadAvatarMini: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#1f2937',
+    backgroundColor: '#eff6ff',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: '#bfdbfe',
   },
   leadAvatarMiniText: {
-    color: '#3b82f6',
+    color: '#2563eb',
     fontWeight: '800',
     fontSize: 12,
   },
   leadCardName: {
     fontSize: 14,
-    fontWeight: '700',
-    color: '#f8fafc',
+    fontWeight: '800',
+    color: '#0f172a',
   },
   leadCardPhone: {
     fontSize: 11,
-    color: '#9ca3af',
+    color: '#64748b',
   },
   scorePill: {
-    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+    backgroundColor: '#fef2f2',
     borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.3)',
+    borderColor: '#fecdd3',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 10,
   },
   scorePillText: {
-    color: '#f87171',
+    color: '#e11d48',
     fontSize: 11,
     fontWeight: '800',
   },
   leadCardBody: {
     marginVertical: 8,
-    paddingVertical: 6,
+    paddingVertical: 8,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#f1f5f9',
     gap: 3,
   },
   leadPropType: {
     fontSize: 12,
-    color: '#f3f4f6',
-    fontWeight: '500',
+    color: '#1e293b',
+    fontWeight: '600',
   },
   leadBudget: {
     fontSize: 12,
-    color: '#f3f4f6',
-    fontWeight: '600',
+    color: '#059669',
+    fontWeight: '700',
   },
   leadCardFooter: {
     flexDirection: 'row',
@@ -1117,15 +1157,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stageTag: {
-    backgroundColor: '#1f2937',
+    backgroundColor: '#f1f5f9',
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 6,
+    borderRadius: 8,
   },
   stageTagText: {
-    color: '#9ca3af',
+    color: '#475569',
     fontSize: 10,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   quickLeadActionRow: {
     flexDirection: 'row',
@@ -1135,10 +1175,10 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 8,
-    backgroundColor: '#1f2937',
+    backgroundColor: '#f8fafc',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: '#e2e8f0',
   },
 });

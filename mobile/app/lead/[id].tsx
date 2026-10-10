@@ -14,6 +14,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useLead, useUpdateLead } from '../../hooks/use-leads';
 import { MOCK_PROPERTIES } from '../../data/mock-crm-data';
+import { THEME } from '../../constants/Colors';
 
 export default function LeadDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -69,7 +70,7 @@ export default function LeadDetailScreen() {
       {/* Top Navigation Bar */}
       <View style={styles.navBar}>
         <TouchableOpacity style={styles.navBackBtn} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={20} color="#f8fafc" />
+          <Ionicons name="arrow-back" size={20} color="#0f172a" />
         </TouchableOpacity>
         <Text style={styles.navTitle}>Lead 360° Profile</Text>
         <View style={styles.scorePill}>
@@ -106,8 +107,8 @@ export default function LeadDetailScreen() {
             style={styles.visitBtn}
             onPress={() => Alert.alert('Site Visit', `Site visit itinerary confirmed for ${lead.name}`)}
           >
-            <Ionicons name="car" size={16} color="#f59e0b" style={{ marginRight: 6 }} />
-            <Text style={[styles.actionBtnText, { color: '#f59e0b' }]}>Site Tour</Text>
+            <Ionicons name="car" size={16} color="#d97706" style={{ marginRight: 6 }} />
+            <Text style={[styles.actionBtnText, { color: '#b45309' }]}>Site Tour</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -116,7 +117,7 @@ export default function LeadDetailScreen() {
       <View style={styles.audioPlayerCard}>
         <View style={styles.rowBetween}>
           <View style={styles.rowAlign}>
-            <Ionicons name="mic-circle" size={22} color="#3b82f6" />
+            <Ionicons name="mic-circle" size={22} color="#2563eb" />
             <Text style={styles.audioTitle}>Recorded Call Audio (QA Audit)</Text>
           </View>
           <View style={styles.durationPill}>
@@ -139,7 +140,7 @@ export default function LeadDetailScreen() {
                       styles.waveBar,
                       {
                         height: h,
-                        backgroundColor: i < 10 ? '#3b82f6' : '#334155',
+                        backgroundColor: i < 10 ? '#2563eb' : '#cbd5e1',
                       },
                     ]}
                   />
@@ -165,15 +166,15 @@ export default function LeadDetailScreen() {
         {showTranscript && (
           <View style={styles.transcriptBox}>
             <Text style={styles.transcriptLine}>
-              <Text style={{ fontWeight: 'bold', color: '#60a5fa' }}>Caller (Gayatri): </Text>
+              <Text style={{ fontWeight: 'bold', color: '#2563eb' }}>Caller (Gayatri): </Text>
               "Good afternoon Mr. {lead.name.split(' ')[0]}, calling from Tathastu Infra regarding your inquiry for {lead.property_type}."
             </Text>
             <Text style={styles.transcriptLine}>
-              <Text style={{ fontWeight: 'bold', color: '#34d399' }}>Client ({lead.name.split(' ')[0]}): </Text>
+              <Text style={{ fontWeight: 'bold', color: '#059669' }}>Client ({lead.name.split(' ')[0]}): </Text>
               "Yes, my budget is around {lead.budget}. Looking for 2 covered parkings and higher floor. Is a Sunday tour available?"
             </Text>
             <Text style={styles.transcriptLine}>
-              <Text style={{ fontWeight: 'bold', color: '#60a5fa' }}>Caller (Gayatri): </Text>
+              <Text style={{ fontWeight: 'bold', color: '#2563eb' }}>Caller (Gayatri): </Text>
               "Yes sir! We have a private cab pickup arranged for your family. Scheduled for Sunday 11:30 AM."
             </Text>
           </View>
@@ -208,7 +209,7 @@ export default function LeadDetailScreen() {
         <Text style={styles.sectionHeading}>Lead Journey & Activity Timeline</Text>
         <View style={styles.timelineList}>
           <View style={styles.timelineItem}>
-            <View style={[styles.timelineDot, { backgroundColor: '#3b82f6' }]} />
+            <View style={[styles.timelineDot, { backgroundColor: '#2563eb' }]} />
             <View style={{ flex: 1, marginLeft: 12 }}>
               <Text style={styles.timelineTitle}>Inbound Lead Auto-Ingested</Text>
               <Text style={styles.timelineSub}>Captured via {lead.source} webhook</Text>
@@ -263,13 +264,13 @@ export default function LeadDetailScreen() {
           value={managerNotes}
           onChangeText={setManagerNotes}
           placeholder="Enter confidential notes, negotiation terms, or loan requirements..."
-          placeholderTextColor="#64748b"
+          placeholderTextColor="#94a3b8"
         />
       </View>
 
       {/* Recommended Property Match */}
       <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeading}>AI Recommended Property</Text>
+        <Text style={styles.sectionHeading}>AI Recommended Property Match</Text>
         <View style={styles.matchCard}>
           <View style={styles.rowBetween}>
             <Text style={styles.matchTitle}>{MOCK_PROPERTIES[0].title}</Text>
@@ -302,7 +303,7 @@ export default function LeadDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#090d16',
+    backgroundColor: '#f8fafc',
   },
   content: {
     padding: 16,
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     flex: 1,
-    backgroundColor: '#090d16',
+    backgroundColor: '#f8fafc',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -322,14 +323,17 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   backBtn: {
-    backgroundColor: '#1e293b',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
   },
   backBtnText: {
-    color: '#f8fafc',
+    color: '#0f172a',
     fontSize: 13,
+    fontWeight: '700',
   },
   navBar: {
     flexDirection: 'row',
@@ -338,40 +342,50 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   navBackBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#1e293b',
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#e2e8f0',
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 2,
   },
   navTitle: {
     fontSize: 17,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   scorePill: {
-    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+    backgroundColor: '#fef2f2',
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderWidth: 1,
-    borderColor: '#ef4444',
+    borderColor: '#fecdd3',
   },
   scorePillText: {
-    color: '#f87171',
+    color: '#e11d48',
     fontWeight: '800',
     fontSize: 11,
   },
   profileCard: {
-    backgroundColor: '#111827',
-    borderRadius: 16,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 14,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
   rowBetween: {
     flexDirection: 'row',
@@ -386,30 +400,30 @@ const styles = StyleSheet.create({
   clientName: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   clientPhone: {
     fontSize: 13,
-    color: '#9ca3af',
+    color: '#64748b',
     marginTop: 2,
   },
   clientEmail: {
     fontSize: 12,
-    color: '#6b7280',
+    color: '#94a3b8',
     marginTop: 1,
   },
   stageBadge: {
-    backgroundColor: '#1e293b',
+    backgroundColor: '#eff6ff',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#bfdbfe',
   },
   stageBadgeText: {
-    color: '#38bdf8',
+    color: '#2563eb',
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   actionRow: {
     flexDirection: 'row',
@@ -417,14 +431,14 @@ const styles = StyleSheet.create({
     marginTop: 14,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#1f2937',
+    borderTopColor: '#f1f5f9',
   },
   callBtn: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#2563eb',
     borderRadius: 10,
-    paddingVertical: 9,
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -433,18 +447,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#10b981',
     borderRadius: 10,
-    paddingVertical: 9,
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   visitBtn: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+    backgroundColor: '#fffbeb',
     borderWidth: 1,
-    borderColor: 'rgba(245, 158, 11, 0.4)',
+    borderColor: '#fde68a',
     borderRadius: 10,
-    paddingVertical: 9,
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -454,26 +468,31 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   audioPlayerCard: {
-    backgroundColor: '#111827',
-    borderRadius: 16,
+    backgroundColor: '#ffffff',
+    borderRadius: 18,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 14,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
   },
   audioTitle: {
     fontSize: 13,
-    fontWeight: '700',
-    color: '#f8fafc',
+    fontWeight: '800',
+    color: '#0f172a',
   },
   durationPill: {
-    backgroundColor: '#1f2937',
+    backgroundColor: '#f1f5f9',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
   },
   durationPillText: {
-    color: '#94a3b8',
+    color: '#64748b',
     fontSize: 10,
     fontWeight: '700',
   },
@@ -487,7 +506,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#2563eb',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -507,7 +526,7 @@ const styles = StyleSheet.create({
   },
   timerText: {
     fontSize: 10,
-    color: '#64748b',
+    color: '#94a3b8',
     textAlign: 'right',
   },
   transcriptToggleRow: {
@@ -516,45 +535,50 @@ const styles = StyleSheet.create({
   },
   transcriptToggleText: {
     fontSize: 11,
-    color: '#60a5fa',
-    fontWeight: '600',
+    color: '#2563eb',
+    fontWeight: '700',
   },
   transcriptBox: {
-    backgroundColor: '#0f172a',
-    borderRadius: 10,
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
     padding: 12,
     marginTop: 8,
     borderWidth: 1,
-    borderColor: '#1e293b',
+    borderColor: '#e2e8f0',
     gap: 8,
   },
   transcriptLine: {
     fontSize: 12,
-    color: '#cbd5e1',
-    lineHeight: 17,
+    color: '#334155',
+    lineHeight: 18,
   },
   sectionCard: {
-    backgroundColor: '#111827',
-    borderRadius: 16,
+    backgroundColor: '#ffffff',
+    borderRadius: 18,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#e2e8f0',
     marginBottom: 14,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
   },
   sectionHeading: {
     fontSize: 14,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
     marginBottom: 12,
   },
   reqGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: '#0f172a',
-    borderRadius: 10,
-    padding: 10,
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
+    padding: 12,
     borderWidth: 1,
-    borderColor: '#1e293b',
+    borderColor: '#e2e8f0',
     gap: 12,
   },
   reqItem: {
@@ -567,20 +591,20 @@ const styles = StyleSheet.create({
   },
   reqVal: {
     fontSize: 12,
-    color: '#f8fafc',
+    color: '#0f172a',
     fontWeight: '700',
     marginTop: 2,
   },
   reqValGreen: {
     fontSize: 12,
-    color: '#10b981',
+    color: '#059669',
     fontWeight: '800',
     marginTop: 2,
   },
   timelineList: {
     gap: 14,
     borderLeftWidth: 2,
-    borderLeftColor: '#1e293b',
+    borderLeftColor: '#e2e8f0',
     marginLeft: 8,
     paddingLeft: 12,
   },
@@ -597,73 +621,73 @@ const styles = StyleSheet.create({
   },
   timelineTitle: {
     fontSize: 13,
-    fontWeight: '700',
-    color: '#f8fafc',
+    fontWeight: '800',
+    color: '#0f172a',
   },
   timelineSub: {
     fontSize: 11,
-    color: '#94a3b8',
+    color: '#64748b',
     marginTop: 1,
   },
   timelineTime: {
     fontSize: 10,
-    color: '#64748b',
+    color: '#94a3b8',
     marginTop: 2,
   },
   saveNotesText: {
     fontSize: 12,
-    color: '#3b82f6',
-    fontWeight: '700',
+    color: '#2563eb',
+    fontWeight: '800',
   },
   notesInput: {
-    backgroundColor: '#0f172a',
-    borderRadius: 10,
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#1e293b',
-    color: '#f8fafc',
+    borderColor: '#e2e8f0',
+    color: '#0f172a',
     fontSize: 12,
     textAlignVertical: 'top',
   },
   matchCard: {
-    backgroundColor: '#0f172a',
-    borderRadius: 12,
-    padding: 12,
+    backgroundColor: '#f8fafc',
+    borderRadius: 14,
+    padding: 14,
     borderWidth: 1,
-    borderColor: '#1e293b',
+    borderColor: '#e2e8f0',
   },
   matchTitle: {
     fontSize: 14,
     fontWeight: '800',
-    color: '#f8fafc',
+    color: '#0f172a',
   },
   matchScoreTag: {
-    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+    backgroundColor: '#ecfdf5',
     borderRadius: 6,
     paddingHorizontal: 6,
     paddingVertical: 2,
   },
   matchScoreTagText: {
-    color: '#10b981',
+    color: '#059669',
     fontSize: 10,
     fontWeight: '800',
   },
   matchLoc: {
     fontSize: 11,
-    color: '#94a3b8',
+    color: '#64748b',
     marginTop: 2,
   },
   matchPrice: {
-    fontSize: 13,
-    fontWeight: '800',
-    color: '#10b981',
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#059669',
     marginTop: 4,
   },
   quoteBtn: {
     flexDirection: 'row',
-    backgroundColor: '#8b5cf6',
-    borderRadius: 8,
-    paddingVertical: 8,
+    backgroundColor: '#7c3aed',
+    borderRadius: 10,
+    paddingVertical: 9,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
